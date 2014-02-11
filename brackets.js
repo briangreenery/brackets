@@ -7,12 +7,19 @@ var brackets = function (n) {
 
   stream._read = function() {
     var chunk = '';
+    var count = 0;
 
-    for (var i = 0; i < Math.min(n, 4096); i++)
-      chunk += '[ ]'[Math.floor(3 * Math.random())];
+    for (var i = 0; i < Math.min(n, 4096); i++) {
+      var c = '[ ]'[Math.floor(3 * Math.random())];
+
+      if (c != ' ')
+        count++;
+
+      chunk += c;
+    }
 
     stream.push(chunk);
-    n -= chunk.length;
+    n -= count;
 
     if (n == 0)
       stream.push(null);
